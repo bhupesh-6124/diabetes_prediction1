@@ -31,7 +31,9 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 # Database and Mail Configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@trolley.proxy.rlwy.net:35481/railway"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@trolley.proxy.rlwy.net:35481/railway"
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@trolley.proxy.rlwy.net:35481/railway"
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@containers-us-west-123.railway.app:3306/railway"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -468,4 +470,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  
 app.run(debug=True)
+
 
