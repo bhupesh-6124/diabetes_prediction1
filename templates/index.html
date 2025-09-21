@@ -33,12 +33,19 @@ body {
     z-index: 1000;
     flex-wrap: wrap;
 }
+
+/* Brand */
 .navbar-brand {
     font-size: 2rem;
     font-weight: 600;
     color: #fff !important;
     text-decoration: none;
 }
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand:active { color:#fff !important; text-decoration:none; }
+
+/* User info */
 .navbar-user-info {
     display: flex;
     flex-direction: column;
@@ -47,6 +54,7 @@ body {
     color: white;
     font-weight: 600;
     font-size: 1rem;
+    flex-shrink: 0;
 }
 .navbar-user-info a {
     color: #fff;
@@ -73,12 +81,13 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 80px 30px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    padding: 80px 30px;
     width: 80%;
     max-width: 800px;
+    margin: 100px auto 110px auto;
     text-align: center;
 }
 .hero h1 { font-size: 2rem; font-weight:600; margin-bottom:20px; color:#388E3C;}
@@ -141,10 +150,17 @@ footer { padding:15px; background:#388E3C; color:#fff; font-size:1rem; text-alig
 
 /* Responsive */
 @media(max-width:768px){
-    .hero { width:90%; padding:60px 20px; }
-    .hamburger-menu { top:100px; left:10px; }
+    .hero { width:90%; margin-top:180px; padding:60px 20px; }
     .chatbox { width:90%; right:5%; }
     .navbar-user-info { align-items:flex-start; text-align:left; margin-top:10px; }
+
+    /* Move hamburger inside navbar on mobile */
+    .hamburger-menu {
+        position: absolute;  /* inside navbar */
+        top: 10px;
+        right: 10px;
+        left: auto;
+    }
 }
 @media(max-width:480px){
     .hero h1 { font-size:1.5rem; }
@@ -156,19 +172,21 @@ footer { padding:15px; background:#388E3C; color:#fff; font-size:1rem; text-alig
 <body>
 
 <!-- Navbar -->
-<nav class="navbar">
+<nav class="navbar d-flex justify-content-between align-items-center">
     <a class="navbar-brand">Diabetes Predictor</a>
     {% if user_name %}
-    <div class="navbar-user-info">
+    <div class="navbar-user-info d-flex flex-column align-items-end">
         <div><i class="fas fa-user"></i> {{ user_name }}</div>
         <a href="{{ url_for('logout') }}">Logout</a>
     </div>
     {% endif %}
 </nav>
 
-<!-- Hamburger -->
+<!-- Hamburger menu button -->
 <div class="hamburger-menu">
-    <button class="hamburger-button" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <button class="hamburger-button" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
     <div class="hamburger-menu-items" id="menu-items">
         <a href="{{ url_for('view_history') }}"><i class="fas fa-history"></i> View History</a>
     </div>
@@ -200,11 +218,45 @@ footer { padding:15px; background:#388E3C; color:#fff; font-size:1rem; text-alig
 </footer>
 
 <script>
-function toggleMenu(){ const menu=document.getElementById("menu-items"); menu.style.display=(menu.style.display==="flex")?"none":"flex"; }
-function toggleChatbot(){ const chatbox=document.getElementById("chatbox"); chatbox.style.display=(chatbox.style.display==="flex")?"none":"flex"; }
-function appendMessage(text,sender){ const chatBody=document.getElementById("chatbox-body"); const message=document.createElement("div"); message.style.padding="8px"; message.style.margin="5px"; message.style.borderRadius="8px"; message.innerText=text; if(sender==="user"){ message.style.background="#D1F2EB"; message.style.textAlign="right"; }else{ message.style.background="#E8F5E9"; message.style.textAlign="left"; } chatBody.appendChild(message); chatBody.scrollTop=chatBody.scrollHeight; }
-function sendMessage(){ const chatInput=document.getElementById("chat-input"); const userMessage=chatInput.value.trim(); if(!userMessage) return; appendMessage("You: "+userMessage,"user"); fetch("/chatbot",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:userMessage}) }).then(res=>res.json()).then(data=>appendMessage("Bot: "+data.response,"bot")).catch(err=>console.error(err)); chatInput.value=""; }
-document.getElementById("chat-input").addEventListener("keypress",function(event){ if(event.key==="Enter") sendMessage(); });
+function toggleMenu(){ 
+    const menu=document.getElementById("menu-items"); 
+    menu.style.display=(menu.style.display==="flex")?"none":"flex"; 
+}
+function toggleChatbot(){ 
+    const chatbox=document.getElementById("chatbox"); 
+    chatbox.style.display=(chatbox.style.display==="flex")?"none":"flex"; 
+}
+function appendMessage(text,sender){ 
+    const chatBody=document.getElementById("chatbox-body"); 
+    const message=document.createElement("div"); 
+    message.style.padding="8px"; 
+    message.style.margin="5px"; 
+    message.style.borderRadius="8px"; 
+    message.innerText=text; 
+    if(sender==="user"){ 
+        message.style.background="#D1F2EB"; 
+        message.style.textAlign="right"; 
+    }else{ 
+        message.style.background="#E8F5E9"; 
+        message.style.textAlign="left"; 
+    } 
+    chatBody.appendChild(message); 
+    chatBody.scrollTop=chatBody.scrollHeight; 
+}
+function sendMessage(){ 
+    const chatInput=document.getElementById("chat-input"); 
+    const userMessage=chatInput.value.trim(); 
+    if(!userMessage) return; 
+    appendMessage("You: "+userMessage,"user"); 
+    fetch("/chatbot",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:userMessage}) })
+    .then(res=>res.json())
+    .then(data=>appendMessage("Bot: "+data.response,"bot"))
+    .catch(err=>console.error(err)); 
+    chatInput.value=""; 
+}
+document.getElementById("chat-input").addEventListener("keypress",function(event){ 
+    if(event.key==="Enter") sendMessage(); 
+});
 </script>
 </body>
 </html>
