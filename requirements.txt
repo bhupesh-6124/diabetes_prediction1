@@ -1,0 +1,17 @@
+flask
+flask_sqlalchemy
+flask_mail
+flask_bcrypt
+itsdangerous
+mysql-connector-python
+joblib
+nltk
+cryptography
+gunicorn
+email-validator
+xhtml2pdf
+plotly
+pandas
+numpy
+scikit-learn
+pymysql

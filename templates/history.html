@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 30px;
+            background-color: #f7fdfa;
+        }
+
+        h2 {
+            color: #2f855a;
+            margin-bottom: 20px;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        select.filter-select {
+            padding: 10px 18px;
+            font-size: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #38a169;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select.filter-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.4);
+        }
+
+        .summary-toggle {
+            padding: 10px 18px;
+            font-size: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, #38a169, #68d391);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .summary-toggle:hover {
+            background: linear-gradient(to right, #2f855a, #48bb78);
+            transform: scale(1.05);
+        }
+
+        #summaryBox {
+            padding: 15px;
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 128, 0, 0.1);
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #48bb78;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f6fff8;
+        }
+
+        tr:hover {
+            background-color: #e6ffed;
+        }
+
+        .back-btn {
+            margin-top: 30px;
+            display: inline-block;
+            background-color: #38a169;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(56, 161, 105, 0.3);
+        }
+
+        .back-btn:hover {
+            background-color: #2f855a;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📈 Prediction History</h2>
+
+    <!-- Filter & Summary Toggle -->
+    <div class="filter-container">
+        <select id="timeFilter" class="filter-select" onchange="filterData()">
+            <option value="all">🗓️ All Time</option>
+            <option value="7">⏳ Last 7 Days</option>
+            <option value="30">📅 Last 30 Days</option>
+        </select>
+
+        <button onclick="toggleSummary()" class="summary-toggle">📊 Toggle Summary</button>
+    </div>
+
+    <!-- Summary Box -->
+    <div id="summaryBox">
+        {% set positives = predictions | selectattr('result', 'equalto', 'Positive') | list %}
+        {% set negatives = predictions | selectattr('result', 'equalto', 'Negative') | list %}
+        {% set glucose_vals = predictions | map(attribute='glucose') | reject('equalto', none) | list %}
+        {% set bmi_vals = predictions | map(attribute='bmi') | reject('equalto', none) | list %}
+
+        <p><strong>Total Predictions:</strong> {{ predictions|length }}</p>
+        <p><strong>Total Positive:</strong> {{ positives|length }}</p>
+        <p><strong>Total Negative:</strong> {{ negatives|length }}</p>
+        <p><strong>Average Glucose:</strong> {{ (glucose_vals|sum / (glucose_vals|length or 1)) | round(1) }}</p>
+        <p><strong>Average BMI:</strong> {{ (bmi_vals|sum / (bmi_vals|length or 1)) | round(1) }}</p>
+    </div>
+
+    {% if predictions %}
+    <table id="predictionTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Glucose</th>
+                <th>BMI</th>
+                <th>Age</th>
+                <th>Result</th>
+                <th>Diabetic %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in predictions|reverse %}
+            <tr data-date="{{ p.timestamp.strftime('%Y-%m-%d') }}">
+                <td>{{ loop.index }}</td>
+                <td>{{ p.timestamp.strftime('%Y-%m-%d') }}</td>
+                <td>{{ p.glucose }}</td>
+                <td>{{ p.bmi }}</td>
+                <td>{{ p.age }}</td>
+                <td style="color: {% if p.result == 'Positive' %}red{% else %}green{% endif %}; font-weight: 600;">
+                    {{ p.result }}
+                </td>
+                <td>{{ p.diabetic_probability }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No predictions found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="back-btn">← Back to Dashboard</a>
+
+    <script>
+        function toggleSummary() {
+            const summary = document.getElementById("summaryBox");
+            summary.style.display = (summary.style.display === "none" || summary.style.display === "") ? "block" : "none";
+        }
+
+        function filterData() {
+            const filter = document.getElementById("timeFilter").value;
+            const rows = document.querySelectorAll("#predictionTable tbody tr");
+            const today = new Date();
+
+            rows.forEach(row => {
+                const dateStr = row.getAttribute("data-date");
+                const date = new Date(dateStr);
+                const diffDays = Math.floor((today - date) / (1000 * 60 * 60 * 24));
+
+                if (filter === "all") {
+                    row.style.display = "";
+                } else if (filter === "7" && diffDays > 7) {
+                    row.style.display = "none";
+                } else if (filter === "30" && diffDays > 30) {
+                    row.style.display = "none";
+                } else {
+                    row.style.display = "";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

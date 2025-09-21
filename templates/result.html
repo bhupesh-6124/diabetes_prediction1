@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediction Result</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+body {
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: #388E3C;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+.logout-btn {
+    background: white;
+    color: #2E7D32;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.logout-btn:hover {
+    background: #FF7043;
+    color: white;
+}
+
+/* Floating Hamburger Menu (on background, top-left) */
+.floating-menu-btn {
+    position: fixed;
+    top: 90px; /* below navbar */
+    left: 20px;
+    background: #388E3C;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+.floating-menu-btn:hover { background: #FF7043; }
+
+/* Floating menu dropdown */
+.floating-menu-dropdown {
+    display: none;
+    position: fixed;
+    top: 150px; /* below floating button */
+    left: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    min-width: 180px;
+    overflow: hidden;
+    z-index: 99;
+}
+.floating-menu-dropdown a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #2E7D32;
+    font-weight: 500;
+    border-bottom: 1px solid #ddd;
+}
+.floating-menu-dropdown a:last-child { border-bottom: none; }
+.floating-menu-dropdown a:hover { background: #f2f2f2; }
+.floating-menu-dropdown a i { margin-right: 10px; }
+
+/* Main Content */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 15px;
+    position: relative;
+    flex-direction: column;
+}
+
+/* Result Container */
+.result-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    padding: 25px 20px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+}
+.result-container h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #388E3C;
+    margin-bottom: 20px;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.alert-success {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #388E3C;
+}
+.alert-danger {
+    background: #FFEBEE;
+    color: #D32F2F;
+    border: 1px solid #C62828;
+}
+
+/* Progress bars */
+.progress-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.progress {
+    height: 28px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #E0E0E0;
+    margin-bottom: 10px;
+    position: relative;
+}
+.progress-bar {
+    height: 100%;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 28px;
+    color: white;
+    transition: width 0.6s ease-in-out;
+}
+.progress-bar-success { background: #2E7D32; }
+.progress-bar-danger { background: #D32F2F; }
+.progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    left: 0;
+    font-weight: 600;
+    color: white;
+}
+
+/* Predict Again Button (outside container) */
+/* Predict Again Button (centered below container) */
+.predict-btn {
+    display: inline-block; /* center properly */
+    text-align: center;
+    font-weight: 500; /* bold text */
+    text-decoration: none; /* no underline */
+    margin: 20px auto 0 auto; /* center horizontally */
+    background: #388E3C;
+    color: white;
+    font-size: 1rem;
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s ease;
+}
+.predict-btn:hover {
+    background: #FF7043;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+
+/* Footer */
+footer {
+    padding: 12px;
+    background: #388E3C;
+    color: #fff;
+    font-size: 0.8rem;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+footer a {
+    color: #80cbc4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+footer a:hover { color: #FF7043; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .result-container { max-width: 340px; padding: 20px 15px; }
+    .result-container h2 { font-size: 1.5rem; }
+    .progress { height: 22px; }
+    .progress-text { line-height: 22px; font-size: 0.95rem; }
+    .predict-btn { width: 180px; }
+}
+@media (max-width: 480px) {
+    .result-container { max-width: 300px; padding: 15px 10px; }
+    .result-container h2 { font-size: 1.3rem; }
+    .predict-btn { font-size: 0.9rem; padding: 8px 15px; width: 160px; }
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container position-relative">
+    <a class="navbar-brand" href="/">Diabetes Predictor</a>
+    <a href="{{ url_for('index') }}" class="logout-btn">Home</a>
+  </div>
+</nav>
+
+<!-- Floating Hamburger Menu -->
+<button class="floating-menu-btn" onclick="toggleFloatingMenu()">
+  <i class="fas fa-bars"></i>
+</button>
+<div class="floating-menu-dropdown" id="floatingMenu">
+    {% if prediction_id %}
+    <a href="{{ url_for('download_report', prediction_id=prediction_id) }}">
+      <i class="fas fa-file-pdf"></i> Download PDF
+    </a>
+    {% endif %}
+</div>
+
+
+<!-- Main Content -->
+<div class="main-content">
+  <div class="result-container">
+    <h2>Prediction Result</h2>
+    <div class="alert {% if result == 'Positive' %}alert-danger{% else %}alert-success{% endif %}">
+      <h4>Your Diabetes Prediction: <strong>{{ result }}</strong></h4>
+      <p>Model Confidence: <strong>{{ confidence | default(0) }}%</strong></p>
+      {% if result == 'Positive' %}
+      <p>Early detection is crucial. Please consult a healthcare provider.</p>
+      {% else %}
+      <p>Great job! Maintain your healthy lifestyle.</p>
+      {% endif %}
+    </div>
+
+    <div class="progress-container">
+      <label class="mb-1">Diabetes Probability</label>
+      <div class="progress">
+        <div class="progress-bar progress-bar-danger" style="width: {{ diabetic_probability | default(0) }}%;">
+          <span class="progress-text">{{ diabetic_probability | default(0) }}%</span>
+        </div>
+      </div>
+      <label class="mb-1">Non-Diabetes Probability</label>
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" style="width: {{ non_diabetic_probability | default(0) }}%;">
+          <span class="progress-text">{{ non_diabetic_probability | default(0) }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Predict Again Button (outside container) -->
+ <!-- Predict Again Button (centered below result container) -->
+<a href="{{ url_for('predict') }}" class="predict-btn">Predict Again</a>
+
+</div>
+
+<footer>
+  <p>&copy; 2025 Diabetes Prediction App | Your health, our priority.</p>
+  <p><a href="/terms">Terms of Service</a> | <a href="/privacy">Privacy Policy</a></p>
+</footer>
+
+<script>
+function toggleFloatingMenu() {
+    const menu = document.getElementById('floatingMenu');
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+}
+
+// Close menu if clicked outside
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('floatingMenu');
+    const btn = document.querySelector('.floating-menu-btn');
+    if (!menu.contains(event.target) && !btn.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Overall page settings */
+        body {
+            background: #E8F5E9; /* Soft, light green */
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Ensures footer stays at the bottom */
+            align-items: center;
+            font-size: 16px;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background: #388E3C; /* Green color */
+            padding: 1rem 2rem;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 30px;
+            background: rgba(255, 255, 255, 0.8); /* Soft white */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            margin-top: 120px; /* Gives space for navbar */
+            margin-bottom: 50px; /* Ensures proper spacing from footer */
+            animation: fadeIn 2s ease-in-out;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #388E3C;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .btn-custom {
+            background: #388E3C;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom:hover {
+            background: #FF7043; /* Orange on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            padding: 15px;
+            background: #388E3C;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        footer a {
+            color: #80cbc4;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #FF7043;
+        }
+
+        /* Fade-in animation for Hero Section */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.6rem;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Diabetes Predictor</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to the Diabetes Prediction App</h1>
+        <p>Empower yourself with knowledge. Our AI-powered tool helps predict diabetes early, enabling proactive health management.</p>
+        <a href="/predict" class="btn btn-custom">Start Your Prediction</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Diabetes Prediction App | Your health, our priority.</p>
+            <p><a href="/terms">Terms of Service</a> | <a href="/privacy">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

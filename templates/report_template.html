@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Diabetes Prediction Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 40px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .header {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+        .sub-header {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #444;
+        }
+        .section {
+            margin: 25px 0;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #28a745;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .highlight-box {
+            background-color: #e8f5e9;
+            border-left: 6px solid #28a745;
+            padding: 10px 15px;
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: 600;
+        }
+        ul {
+            padding-left: 18px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .grid-item {
+            background-color: #f8f9fa;
+            padding: 10px 12px;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Diabetes Prediction Report</h1>
+    </div>
+
+    <div class="sub-header">
+        <p><strong>Date:</strong> {{ now }}</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Prediction Summary</div>
+        <div class="highlight-box">
+            <p><strong>Result:</strong> <span style="color: {{ 'red' if prediction.result == 'Positive' else 'green' }};">{{ prediction.result }}</span></p>
+            <p><strong>Confidence:</strong> {{ prediction.diabetic_probability }}%</p>
+            <p><strong>Non-Diabetic Probability:</strong> {{ prediction.non_diabetic_probability }}%</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Your Input Data</div>
+        <div class="grid">
+            <div class="grid-item"><span class="label">Pregnancies:</span> {{ prediction.pregnancies }}</div>
+            <div class="grid-item"><span class="label">Glucose:</span> {{ prediction.glucose }}</div>
+            <div class="grid-item"><span class="label">Blood Pressure:</span> {{ prediction.blood_pressure }}</div>
+            <div class="grid-item"><span class="label">Skin Thickness:</span> {{ prediction.skin_thickness }}</div>
+            <div class="grid-item"><span class="label">Insulin:</span> {{ prediction.insulin }}</div>
+            <div class="grid-item"><span class="label">BMI:</span> {{ prediction.bmi }}</div>
+            <div class="grid-item"><span class="label">DPF:</span> {{ prediction.dpf }}</div>
+            <div class="grid-item"><span class="label">Age:</span> {{ prediction.age }}</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Health & Lifestyle Suggestions</div>
+        <ul>
+            <li>Adopt a balanced diet rich in fiber and low in sugar.</li>
+            <li>Exercise regularly – even 30 mins of walking helps!</li>
+            <li>Stay hydrated and manage your sleep schedule.</li>
+            <li>Visit a healthcare provider for further evaluation.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 Diabetes App | AI-generated health insight. Not a medical diagnosis.
+    </div>
+
+</body>
+</html>

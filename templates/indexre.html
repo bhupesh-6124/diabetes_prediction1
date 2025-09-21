@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction</title>
+    
+    <!-- Bootstrap & Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background: linear-gradient(to right, #f8fafc, #e2e8f0);
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            padding: 20px;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        #download-btn {
+            display: none;
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card fade-in">
+            <h2 class="text-center text-xl font-bold mb-3">Diabetes Prediction</h2>
+            <button class="btn btn-primary w-100" onclick="getPrediction()">Get Prediction</button>
+            
+            <div class="mt-4">
+                <h4 id="result" class="text-center text-lg"></h4>
+                <p id="diet" class="text-center"></p>
+                <p id="exercise" class="text-center"></p>
+            </div>
+
+            <!-- Download PDF Button -->
+            <a id="download-btn" href="/download_report" download>
+                <button class="btn btn-success w-100 mt-3">Download Report</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function getPrediction() {
+            fetch('/predict', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prediction: "Diabetic" }) // Example Prediction
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "Prediction: " + data.prediction;
+                document.getElementById("diet").innerText = "Diet Plan: " + data.recommendations.diet;
+                document.getElementById("exercise").innerText = "Exercise Suggestions: " + data.recommendations.exercise;
+                
+                // Show download button
+                document.getElementById("download-btn").style.display = "block";
+            });
+        }
+    </script>
+
+</body>
+</html>
