@@ -15,6 +15,10 @@ from datetime import datetime
 import cryptography
 import sqlite3
 
+import pymysql
+pymysql.install_as_MySQLdb()
+
+
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -464,3 +468,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  
 app.run(debug=True)
+
