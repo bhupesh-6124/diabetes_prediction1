@@ -21,7 +21,9 @@ body {
 
 /* Navbar */
 .navbar {
-    position: sticky;
+    /* position: sticky; */
+        position: absolute;   /* Place it relative to page */
+
     top: 0;
     padding: 1rem 2rem;
     width: 100%;
@@ -70,7 +72,7 @@ body {
 
 /* Hero */
 .main-content {
-    flex: 1;
+    /* flex: 1; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,7 +89,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     width: 80%;
     max-width: 800px;
-    margin: 100px auto 110px auto;
+    margin: 150px auto 100px auto;
     text-align: center;
 }
 .hero h1 { font-size: 2rem; font-weight:600; margin-bottom:20px; color:#388E3C;}
@@ -97,14 +99,15 @@ body {
 
 /* Hamburger menu */
 .hamburger-menu {
-    position: fixed;
-    top: 140px;
-    left: 20px;
-    z-index: 100;
+    position: fixed;       /* Stay fixed while scrolling */
+    top: 100px;             /* Exactly below navbar */
+    left: 20px;            /* Left side */
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
+
 .hamburger-button {
     background: #388E3C;
     color: white;
@@ -116,10 +119,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition:0.3s;
+    transition: 0.3s;
 }
+/* .hamburger-button:hover {
+    background: #FF7043;
+}
+
+.hamburger-button:hover {
+    background: #FF7043;
+} */
+
 .hamburger-button:hover { background:#FF7043; }
 .hamburger-menu-items {
     display:none;
