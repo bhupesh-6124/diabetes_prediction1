@@ -18,14 +18,12 @@ body {
 
 /* Navbar */
 .navbar {
-    position: relative;
-    padding: 1rem 2rem;
+     position: sticky; /* scrolls with page */
+    top: 0;
+    padding: 0.8rem 1.5rem;
     width: 100%;
     background: #388E3C;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     z-index: 1000;
 }
 
@@ -49,6 +47,8 @@ body {
     color: white;
     font-weight: 600;
     font-size: 1rem;
+    flex-shrink: 0; /* prevent shrinking on small screens */
+
 }
 .navbar-user-info a {
     color: #fff;
@@ -85,14 +85,22 @@ body {
 
 /* Hamburger menu */
 .hamburger-menu {
-    position: absolute;
-    top: 120px;
+    position: fixed;
+    top: 80px;  /* adjust distance from navbar */
     left: 20px;
     z-index: 100;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
+
+/* Mobile adjustments */
+@media(max-width:768px){
+    .navbar { flex-wrap: nowrap; } /* prevent wrapping */
+    .navbar-user-info { text-align: right; }
+    .hamburger-menu { top: 90px; left: 10px; }
+}
+
 .hamburger-button {
     background: #388E3C;
     color: white;
@@ -142,19 +150,21 @@ footer { padding:15px; background:#388E3C; color:#fff; font-size:1rem; text-alig
 <body>
 
 <!-- Navbar -->
-<nav class="navbar">
+<nav class="navbar d-flex justify-content-between align-items-center">
     <a class="navbar-brand">Diabetes Predictor</a>
     {% if user_name %}
-    <div class="navbar-user-info">
+    <div class="navbar-user-info d-flex flex-column align-items-end">
         <div><i class="fas fa-user"></i> {{ user_name }}</div>
         <a href="{{ url_for('logout') }}">Logout</a>
     </div>
     {% endif %}
 </nav>
 
-<!-- Hamburger -->
+<!-- Hamburger menu button -->
 <div class="hamburger-menu">
-    <button class="hamburger-button" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+    <button class="hamburger-button" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
     <div class="hamburger-menu-items" id="menu-items">
         <a href="{{ url_for('view_history') }}"><i class="fas fa-history"></i> View History</a>
     </div>
