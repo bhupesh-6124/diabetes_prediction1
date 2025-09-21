@@ -7,9 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
 <style>
-/* Overall page settings */
 body {
     background: #E8F5E9;
     color: #333;
@@ -18,9 +16,9 @@ body {
     font-size: 16px;
 }
 
-/* Navbar styling */
+/* Navbar */
 .navbar {
-    position: relative; /* scrolls with page */
+    position: relative;
     padding: 1rem 2rem;
     width: 100%;
     background: #388E3C;
@@ -31,7 +29,7 @@ body {
     z-index: 1000;
 }
 
-/* Brand / App Name */
+/* Brand */
 .navbar-brand {
     font-size: 2rem;
     font-weight: 600;
@@ -40,12 +38,9 @@ body {
 }
 .navbar-brand:hover,
 .navbar-brand:focus,
-.navbar-brand:active {
-    color: #fff !important;
-    text-decoration: none;
-}
+.navbar-brand:active { color:#fff !important; text-decoration:none; }
 
-/* Navbar User Info */
+/* User info */
 .navbar-user-info {
     display: flex;
     flex-direction: column;
@@ -55,8 +50,6 @@ body {
     font-weight: 600;
     font-size: 1rem;
 }
-
-/* Logout link styling */
 .navbar-user-info a {
     color: #fff;
     text-decoration: none;
@@ -67,11 +60,9 @@ body {
     background: rgba(255,255,255,0.2);
     transition: 0.3s;
 }
-.navbar-user-info a:hover {
-    background: rgba(255,255,255,0.35);
-}
+.navbar-user-info a:hover { background: rgba(255,255,255,0.35); }
 
-/* Hero Section */
+/* Hero */
 .hero {
     display: flex;
     flex-direction: column;
@@ -79,47 +70,22 @@ body {
     align-items: center;
     padding: 80px 30px;
     background: white;
+    
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     width: 80%;
     max-width: 800px;
-    margin: 150px auto 50px auto; /* adjusted for navbar */
+    margin: 100px auto 110px auto;
     text-align: center;
 }
+.hero h1 { font-size: 2rem; font-weight:600; margin-bottom:20px; color:#388E3C;}
+.hero p { font-size:1.1rem; margin-bottom:30px; line-height:1.6; color:#555;}
+.btn-custom { background:#388E3C; color:#fff; font-size:1.1rem; padding:12px 30px; border-radius:25px; border:none; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+.btn-custom:hover { background:#FF7043; transform:translateY(-3px); box-shadow:0 8px 25px rgba(0,0,0,0.2); }
 
-.hero h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #388E3C;
-}
-
-.hero p {
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-    line-height: 1.6;
-    color: #555;
-}
-
-.btn-custom {
-    background: #388E3C;
-    color: #fff;
-    font-size: 1.1rem;
-    padding: 12px 30px;
-    border-radius: 25px;
-    border: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-.btn-custom:hover {
-    background: #FF7043;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-/* Floating Hamburger Menu */
+/* Hamburger menu */
 .hamburger-menu {
-    position: absolute; /* moves with scroll */
+    position: absolute;
     top: 120px;
     left: 20px;
     z-index: 100;
@@ -138,127 +104,38 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition: 0.3s;
+    transition:0.3s;
 }
-.hamburger-button:hover { background: #FF7043; }
+.hamburger-button:hover { background:#FF7043; }
+.hamburger-menu-items { display:none; margin-top:10px; background: rgba(255,255,255,0.8); backdrop-filter: blur(6px); padding:10px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); flex-direction:column; gap:8px; min-width:140px;}
+.hamburger-menu-items a { color:#388E3C; text-decoration:none; font-weight:600; display:flex; align-items:center; gap:6px;}
+.hamburger-menu-items a:hover { background:#f2f2f2; border-radius:5px; padding-left:5px; }
 
-.hamburger-menu-items {
-    display: none;
-    margin-top: 10px;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(6px);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    flex-direction: column;
-    gap: 8px;
-    min-width: 140px;
-}
-.hamburger-menu-items a {
-    color: #388E3C;
-    text-decoration: none;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.hamburger-menu-items a:hover { background: #f2f2f2; border-radius: 5px; padding-left: 5px; }
-
-/* Chatbot Floating Button */
-.chatbot-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #388E3C;
-    color: white;
-    padding: 15px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
-}
-.chatbot-button:hover { transform: scale(1.1); }
-
-/* Chatbox */
-.chatbox {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 350px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-}
-.chatbox-header {
-    background: #388E3C;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-}
-.chatbox-body {
-    height: 300px;
-    overflow-y: auto;
-    padding: 10px;
-    background: #f8fafc;
-}
-.chatbox-footer {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-}
-.chatbox-footer input {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-}
-.chatbox-footer button {
-    background: #388E3C;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    margin-left: 5px;
-    cursor: pointer;
-}
+/* Chatbot */
+.chatbot-button { position:fixed; bottom:20px; right:20px; background:#388E3C; color:white; padding:15px; border-radius:50%; border:none; cursor:pointer; font-size:20px; box-shadow:0 4px 10px rgba(0,0,0,0.2); transition:0.3s;}
+.chatbot-button:hover { transform:scale(1.1); }
+.chatbox { position:fixed; bottom:80px; right:20px; width:350px; background:white; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.2); display:none; flex-direction:column; overflow:hidden;}
+.chatbox-header { background:#388E3C; color:white; padding:10px; text-align:center; font-weight:bold;}
+.chatbox-body { height:300px; overflow-y:auto; padding:10px; background:#f8fafc;}
+.chatbox-footer { display:flex; padding:10px; border-top:1px solid #ddd;}
+.chatbox-footer input { flex:1; padding:8px; border:none; border-radius:5px;}
+.chatbox-footer button { background:#388E3C; color:white; padding:8px 15px; border:none; border-radius:5px; margin-left:5px; cursor:pointer;}
 
 /* Footer */
-footer {
-    padding: 15px;
-    background: #388E3C;
-    color: #fff;
-    font-size: 1rem;
-    text-align: center;
-    width: 100%;
-}
+footer { padding:15px; background:#388E3C; color:#fff; font-size:1rem; text-align:center; width:100%; }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0.5rem 1rem;
-    }
-    .navbar-brand { font-size: 1.5rem; margin-bottom: 5px; }
-    .navbar-user-info { align-items: flex-start; font-size: 0.85rem; gap: 3px; }
-    .navbar-user-info a { font-size: 0.75rem; padding: 3px 8px; }
-    .hero { width: 90%; margin-top: 180px; padding: 60px 20px; }
-    .hamburger-menu { top: 100px; left: 10px; }
-    .chatbox { width: 90%; right: 5%; }
+/* Responsive */
+@media(max-width:768px){
+    .hero { width:90%; margin-top:180px; padding:60px 20px; }
+    .hamburger-menu { top:100px; left:10px; }
+    .chatbox { width:90%; right:5%; }
 }
-@media (max-width: 480px) {
-    .navbar-brand { font-size: 1.2rem; }
-    .hero h1 { font-size: 1.5rem; }
-    .hero p { font-size: 1rem; }
-    .btn-custom { font-size: 1rem; padding: 10px 20px; }
+@media(max-width:480px){
+    .hero h1 { font-size:1.5rem; }
+    .hero p { font-size:1rem; }
+    .btn-custom { font-size:1rem; padding:10px 20px; }
 }
 </style>
 </head>
@@ -275,17 +152,15 @@ footer {
     {% endif %}
 </nav>
 
-<!-- Floating Hamburger Menu -->
+<!-- Hamburger -->
 <div class="hamburger-menu">
-    <button class="hamburger-button" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-    </button>
+    <button class="hamburger-button" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
     <div class="hamburger-menu-items" id="menu-items">
         <a href="{{ url_for('view_history') }}"><i class="fas fa-history"></i> View History</a>
     </div>
 </div>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <div class="hero">
     <h1>Welcome to the Diabetes Prediction App</h1>
     <p>Empower yourself with knowledge. Our AI-powered tool helps predict diabetes early, enabling proactive health management.</p>
@@ -309,55 +184,11 @@ footer {
 </footer>
 
 <script>
-function toggleMenu() {
-    const menu = document.getElementById("menu-items");
-    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-}
-
-function toggleChatbot() {
-    const chatbox = document.getElementById("chatbox");
-    chatbox.style.display = (chatbox.style.display === "flex") ? "none" : "flex";
-}
-
-function appendMessage(text, sender) {
-    const chatBody = document.getElementById("chatbox-body");
-    const message = document.createElement("div");
-    message.style.padding = "8px";
-    message.style.margin = "5px";
-    message.style.borderRadius = "8px";
-    message.innerText = text;
-    if(sender==="user"){
-        message.style.background="#D1F2EB";
-        message.style.textAlign="right";
-    } else {
-        message.style.background="#E8F5E9";
-        message.style.textAlign="left";
-    }
-    chatBody.appendChild(message);
-    chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-function sendMessage() {
-    const chatInput = document.getElementById("chat-input");
-    const userMessage = chatInput.value.trim();
-    if(!userMessage) return;
-    appendMessage("You: "+userMessage, "user");
-
-    fetch("/chatbot", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({message:userMessage})
-    })
-    .then(res=>res.json())
-    .then(data=>appendMessage("Bot: "+data.response, "bot"))
-    .catch(err=>console.error(err));
-
-    chatInput.value="";
-}
-
-document.getElementById("chat-input").addEventListener("keypress", function(event){
-    if(event.key==="Enter") sendMessage();
-});
+function toggleMenu(){ const menu=document.getElementById("menu-items"); menu.style.display=(menu.style.display==="flex")?"none":"flex"; }
+function toggleChatbot(){ const chatbox=document.getElementById("chatbox"); chatbox.style.display=(chatbox.style.display==="flex")?"none":"flex"; }
+function appendMessage(text,sender){ const chatBody=document.getElementById("chatbox-body"); const message=document.createElement("div"); message.style.padding="8px"; message.style.margin="5px"; message.style.borderRadius="8px"; message.innerText=text; if(sender==="user"){ message.style.background="#D1F2EB"; message.style.textAlign="right"; }else{ message.style.background="#E8F5E9"; message.style.textAlign="left"; } chatBody.appendChild(message); chatBody.scrollTop=chatBody.scrollHeight; }
+function sendMessage(){ const chatInput=document.getElementById("chat-input"); const userMessage=chatInput.value.trim(); if(!userMessage) return; appendMessage("You: "+userMessage,"user"); fetch("/chatbot",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:userMessage}) }).then(res=>res.json()).then(data=>appendMessage("Bot: "+data.response,"bot")).catch(err=>console.error(err)); chatInput.value=""; }
+document.getElementById("chat-input").addEventListener("keypress",function(event){ if(event.key==="Enter") sendMessage(); });
 </script>
 </body>
 </html>
