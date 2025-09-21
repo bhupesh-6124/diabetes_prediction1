@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-    
     <style>
         /* Overall page settings */
         body {
@@ -34,20 +33,52 @@
             top: 0;
             left: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* brand left, user right */
+            align-items: center;
         }
 
-        .navbar-user {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 5px 12px;
-    border-radius: 12px;
+        /* Brand / App Name */
+      /* Brand / App Name */
+.navbar-brand {
+    font-size: 2rem;
     font-weight: 600;
+    color: #fff !important;   /* Force white color */
+    text-decoration: none;
 }
 
+/* Prevent color change on hover or active */
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand:active {
+    color: #fff !important;
+    text-decoration: none;
+}
 
-        .navbar-brand {
-            font-size: 2rem;
+        /* Navbar User Info */
+        .navbar-user-info {
+            display: flex;
+            flex-direction: column; /* Stack vertically */
+            align-items: flex-end;
+            gap: 5px;
+            color: white;
             font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Logout link styling */
+        .navbar-user-info a {
             color: #fff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+        }
+        .navbar-user-info a:hover {
+            background: rgba(255, 255, 255, 0.35);
         }
 
         /* Hero Section */
@@ -57,12 +88,12 @@
             justify-content: center;
             align-items: center;
             padding: 80px 30px;
-            background: rgba(255, 255, 255, 0.8); /* Soft white */
+             background: white;/*rgb(255, 255, 255); */
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 80%;
             max-width: 800px;
-            margin-top: 80px;
+            margin-top: 200px;
             margin-bottom: 50px;
             animation: fadeIn 2s ease-in-out;
             text-align: center;
@@ -181,133 +212,106 @@
             width: 100%;
         }
 
+        /* Hamburger Menu Container */
+        .hamburger-menu {
+            position: absolute; /* Moves with scrolling */
+            top: 100px;
+            left: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Hamburger Button */
+        .hamburger-button {
+            background: #388E3C;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Hidden Menu */
+        .hamburger-menu-items {
+            display: none; /* Hidden by default */
+            margin-top: 10px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(6px);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-direction: column;
+            gap: 8px;
+            min-width: 140px;
+        }
+
+        /* Menu Links */
+        .hamburger-menu-items a {
+            color: #388E3C;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem; /* smaller brand text */
+            }
+
+            .navbar-user-info {
+                font-size: 0.85rem;
+                gap: 3px;
+            }
+
+            .navbar-user-info a {
+                font-size: 0.75rem;
+                padding: 3px 8px;
+            }
+
             .chatbox {
                 width: 90%;
                 right: 5%;
             }
         }
-
-
-        /* Hamburger Menu Container */
-.hamburger-menu {
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-/* Hamburger Button */
-.hamburger-button {
-    background: #388E3C;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-/* Hidden Menu */
-.hamburger-menu-items {
-    display: none; /* Hidden by default */
-    margin-top: 10px;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(6px);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    flex-direction: column;
-    gap: 8px;
-    min-width: 140px;
-}
-
-/* Menu Links */
-.hamburger-menu-items a {
-    color: #388E3C;
-    text-decoration: none;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
     </style>
 </head>
 <body>
     <!-- Navbar -->
-
-<nav class="navbar navbar-expand-lg navbar-dark position-relative">
-    <div class="container">
-        <!-- Brand / App Name -->
-        <a class="navbar-brand" href="/">Diabetes Predictor</a>
-        
-        <!-- User Name + Logout at top-right corner -->
+    <nav class="navbar">
+        <a class="navbar-brand" >Diabetes Predictor</a>
         {% if user_name %}
-        <div style="
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            color: white;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-            font-size: 1rem;
-        ">
-            <div>
-                <i class="fas fa-user"></i> {{ user_name }}
-            </div>
-            <a href="{{ url_for('logout') }}" style="
-                color: #fff;
-                text-decoration: none;
-                font-size: 0.85rem;
-                padding: 5px 10px;
-                border-radius: 8px;
-                backdrop-filter: blur(6px);
-                background: rgba(255,255,255,0.2);
-                transition: 0.3s;
-            " onmouseover="this.style.background='rgba(255,255,255,0.35)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                Logout
-            </a>
+        <div class="navbar-user-info">
+            <div><i class="fas fa-user"></i> {{ user_name }}</div>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </div>
         {% endif %}
+    </nav>
+
+    <!-- Floating Hamburger Menu -->
+    <div class="hamburger-menu">
+        <button class="hamburger-button" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="hamburger-menu-items" id="menu-items">
+            <a href="{{ url_for('view_history') }}"><i class="fas fa-history"></i> View History</a>
+        </div>
     </div>
-</nav>
-<!-- Floating Hamburger Menu -->
-<div class="hamburger-menu">
-    <!-- Hamburger Icon -->
-    <button class="hamburger-button" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Hidden Menu -->
-    <div class="hamburger-menu-items" id="menu-items">
-        <a href="{{ url_for('view_history') }}">
-            <i class="fas fa-history"></i> View History
-        </a>
-    </div>
-</div>
-
-<script>
-function toggleMenu() {
-    const menu = document.getElementById("menu-items");
-    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-}
-</script>
-
 
     <!-- Hero Section -->
     <div class="hero">
@@ -335,11 +339,19 @@ function toggleMenu() {
     </footer>
 
     <script>
+        // Hamburger toggle
+        function toggleMenu() {
+            const menu = document.getElementById("menu-items");
+            menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+        }
+
+        // Chatbot toggle
         function toggleChatbot() {
             const chatbox = document.getElementById("chatbox");
             chatbox.style.display = (chatbox.style.display === "flex") ? "none" : "flex";
         }
-    
+
+        // Append chat messages
         function appendMessage(text, sender) {
             const chatBody = document.getElementById("chatbox-body");
             const message = document.createElement("div");
@@ -347,49 +359,41 @@ function toggleMenu() {
             message.style.padding = "8px";
             message.style.margin = "5px";
             message.style.borderRadius = "8px";
-    
             if (sender === "user") {
-                message.style.background = "#D1F2EB";  // Light green for user
+                message.style.background = "#D1F2EB";
                 message.style.textAlign = "right";
             } else {
-                message.style.background = "#E8F5E9";  // Soft green for bot
+                message.style.background = "#E8F5E9";
                 message.style.textAlign = "left";
             }
-    
             message.innerText = text;
             chatBody.appendChild(message);
             chatBody.scrollTop = chatBody.scrollHeight;
         }
-    
+
+        // Send chat
         function sendMessage() {
             const chatInput = document.getElementById("chat-input");
             const userMessage = chatInput.value.trim();
-    
             if (userMessage === "") return;
-    
             appendMessage("You: " + userMessage, "user");
-    
+
             fetch("/chatbot", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: userMessage })
             })
             .then(response => response.json())
-            .then(data => {
-                appendMessage("Bot: " + data.response, "bot");
-            })
+            .then(data => appendMessage("Bot: " + data.response, "bot"))
             .catch(error => console.error("Error:", error));
-    
+
             chatInput.value = "";
         }
-    
-        // Allow pressing Enter to send message
-        document.getElementById("chat-input").addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                sendMessage();
-            }
+
+        // Press Enter to send message
+        document.getElementById("chat-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") sendMessage();
         });
     </script>
-    
 </body>
 </html>
