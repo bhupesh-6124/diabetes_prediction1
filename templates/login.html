@@ -170,9 +170,21 @@
 <div class="login-container">
     <div class="login-card">
         <h2>Login to Your Account</h2>
+        <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
         <form action="/login" method="POST">
             <div class="form-floating input-icon mb-3">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" 
+                value="{{ request.form.get('email', '') }}" required>
                 <i class="fa fa-envelope"></i>
                 <label for="email">Email Address</label>
             </div>
