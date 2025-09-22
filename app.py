@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 from itsdangerous import URLSafeTimedSerializer 
+from datetime import datetime, timedelta
 import random
 import pickle
 import joblib
@@ -14,9 +15,8 @@ from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import cryptography
 import sqlite3
-
-import pymysql
-pymysql.install_as_MySQLdb()
+# import pymysql
+# pymysql.install_as_MySQLdb()
 
 
 nltk.download('punkt')
@@ -31,9 +31,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 # Database and Mail Configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@trolley.proxy.rlwy.net:35481/railway"
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@trolley.proxy.rlwy.net:35481/railway"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@trolley.proxy.rlwy.net:35481/railway"
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:GHdLuaKdNOgzJePesfJQbQdquHwXiSrF@containers-us-west-123.railway.app:3306/railway"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -77,20 +75,31 @@ class Prediction(db.Model):
     non_diabetic_probability = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Signup Route
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         name = request.form['name']
         address = request.form['address']
         email = request.form['email']
-        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')  # Hash password
-        otp = str(random.randint(100000, 999999))  # Generate OTP
+        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
 
-        # Save user with OTP
-        user = User(name=name, address=address, email=email, password=password, otp=otp)
-        db.session.add(user)
-        db.session.commit()
+        # Check if email already exists
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Email already registered. Please login instead.', 'warning')
+            return redirect(url_for('login'))
+
+        # Generate OTP
+        otp = str(random.randint(100000, 999999))
+
+        # Store user data + OTP in session temporarily
+        session['signup_data'] = {
+            'name': name,
+            'address': address,
+            'email': email,
+            'password': password,
+            'otp': otp
+        }
 
         # Send OTP to email
         msg = Message('Your OTP for Signup', sender='your_email@gmail.com', recipients=[email])
@@ -98,32 +107,40 @@ def signup():
         mail.send(msg)
 
         flash('An OTP has been sent to your email. Please verify.', 'info')
-        session['user_email'] = email  # Store email in session for verification
         return redirect(url_for('verify_otp'))
+
     return render_template('signup.html')
 
+
 # OTP Verification Route
-@app.route('/verify-otp', methods=['GET', 'POST'])
+# OTP Verification Route
+@app.route('/verify_otp', methods=['GET', 'POST'])
 def verify_otp():
-    email = session.get('user_email')
-    user = User.query.filter_by(email=email).first()
-
-    if not user:
-        flash('User session expired. Please sign up again.', 'danger')
-        return redirect(url_for('signup'))
-
     if request.method == 'POST':
-        otp = request.form['otp']
+        entered_otp = request.form['otp']
+        signup_data = session.get('signup_data')
+        if not signup_data:
+            flash('Session expired. Please signup again.', 'danger')
+            return redirect(url_for('signup'))
 
-        if user.otp == otp:
-            user.otp = None  # Clear OTP after successful verification
+        if entered_otp == signup_data['otp']:
+            user = User(
+                name=signup_data['name'],
+                address=signup_data['address'],
+                email=signup_data['email'],
+                password=signup_data['password']
+            )
+            db.session.add(user)
             db.session.commit()
-            flash('Signup successful! You can now log in.', 'success')
-            return redirect(url_for('login'))
+            session.pop('signup_data', None)
+            flash('Signup successful! You can now login.', 'success')
+            return redirect(url_for('login'))   # ✅ This is correct
         else:
             flash('Invalid OTP. Please try again.', 'danger')
+            return redirect(url_for('verify_otp'))  # ✅ Correct
 
-    return render_template('verify_otp.html', user=user)
+    return render_template('verify_otp.html')
+
 
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
@@ -131,15 +148,25 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(email=email).first()
 
-        if user and bcrypt.check_password_hash(user.password, password):  # Check hashed password
-            session['user_id'] = user.id
-            flash('Login successful!', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('Invalid credentials. Please try again.', 'danger')
+        # Check if user exists
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            flash('Email not found. Please signup first.', 'danger')
+            return redirect(url_for('login'))
+
+        # Check password
+        if not bcrypt.check_password_hash(user.password, password):
+            flash('Incorrect password. Please try again.', 'warning')
+            return redirect(url_for('login'))
+
+        # Successful login
+        session['user_id'] = user.id
+        flash('Login successful!', 'success')
+        return redirect(url_for('index'))
+
     return render_template('login.html')
+
 
 # Forgot Password Route
 @app.route('/forgot-password', methods=['GET', 'POST'])
@@ -468,9 +495,5 @@ def view_history():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-    
-    port = int(os.environ.get("PORT", 5000))  # Render sets PORT
-    app.run(host="0.0.0.0", port=port, debug=True)
-
-
+        db.create_all()  
+app.run(debug=True)
