@@ -184,14 +184,15 @@
 <div class="otp-container">
     <div class="otp-card">
         <h2>Verify Your OTP</h2>
-        <form action="/verify-otp" method="POST">
-            <div class="form-floating input-icon mb-3">
-                <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
-                <i class="fa fa-key"></i>
-                <label for="otp">OTP</label>
-            </div>
-            <button type="submit" class="btn btn-custom">Verify OTP</button>
-        </form>
+      <form action="{{ url_for('verify_otp') }}" method="POST">
+    <div class="form-floating input-icon mb-3">
+        <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
+        <i class="fa fa-key"></i>
+        <label for="otp">OTP</label>
+    </div>
+    <button type="submit" class="btn btn-custom">Verify OTP</button>
+</form>
+
         <button class="btn-resend" onclick="location.href='/resend-otp'">Resend OTP</button>
         <div class="text-center mt-3">
             <p>Go back to <a href="/login">Login</a></p>
